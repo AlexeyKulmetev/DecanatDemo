@@ -132,7 +132,7 @@ public:
 
 	void addStudent (Student& _student) {
 		// resize students array logic
-
+		
 
 		students[studentsNum++] = &_student;
 		_student.setGroup(this);
