@@ -7,16 +7,23 @@
 
 const int ARRAY_INCREASING = 5;
 
+class Student;
 class Group;
+class Dekanat;
 
 class Student {
 private:
 	int id = 0;
 	std::string fio;
-	Group* group = nullptr;	// not a reference to be able to change the group
+	// perhaps need to declare Group class as a friend to give him access to field group
+	// or make it protected preferably
+	Group* group = nullptr;	// not a reference to be able to change the group 
 	int* marks = nullptr;		// perhaps it shuold be int marks[];
 	int marksNum = 0;	// number of marks
 	int capacity = 0;
+
+protected:
+
 
 public:
 	Student() = delete;
@@ -51,8 +58,20 @@ public:
 	~Student() {
 		delete[] marks;
 	}
-
+	// FIX ME perhaps should add this object to students array in Group class
 	void enroll_to_group(Group* _group) {
+		if (group == _group) {
+			return; // is already enrolled
+		}
+		group->addStudent(*this);
+	}
+
+	// FIX ME is it neccesary?
+	Group* getGroup() const {
+		return group;
+	}
+
+	void setGroup(Group* _group) {
 		group = _group;
 	}
 
@@ -104,10 +123,21 @@ public:
 class Group {
 	std::string title;
 	Student** students = nullptr;
-	int studntNum = 0;
+	int studentsNum = 0;
+	int capacity = 0;
 	Student* head = nullptr;
 
 public:
+	Group(const char* _title) : title(_title) {}
+
+	void addStudent (Student& _student) {
+		// resize students array logic
+
+
+		students[studentsNum++] = &_student;
+		_student.setGroup(this);
+	}
+
 	~Group() {
 		delete[] students;
 	}
