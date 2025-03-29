@@ -15,12 +15,12 @@ class Student {
 private:
 	int id = 0;
 	std::string fio;
-	// perhaps need to declare Group class as a friend to give him access to field group
-	// or make it protected preferably
-	Group* group = nullptr;	// not a reference to be able to change the group 
-	int* marks = nullptr;		// perhaps it shuold be int marks[];
-	int marksNum = 0;	// number of marks
+	Group* group = nullptr;
+	int* marks = nullptr;
+	int marksNum = 0;
 	int capacity = 0;
+
+	friend class Group;
 
 protected:
 
@@ -58,7 +58,7 @@ public:
 	~Student() {
 		delete[] marks;
 	}
-	// FIX ME perhaps should add this object to students array in Group class
+
 	void enroll_to_group(Group* _group) {
 		if (group == _group) {
 			return; // is already enrolled
@@ -66,13 +66,8 @@ public:
 		group->addStudent(*this);
 	}
 
-	// FIX ME is it neccesary?
 	Group* getGroup() const {
 		return group;
-	}
-
-	void setGroup(Group* _group) {
-		group = _group;
 	}
 
 	void addMark(int _mark) {
@@ -130,12 +125,84 @@ class Group {
 public:
 	Group(const char* _title) : title(_title) {}
 
-	void addStudent (Student& _student) {
+	void addStudent(Student& _student) {
 		// resize students array logic
-		
-
+		if (students == nullptr) {
+			capacity = ARRAY_INCREASING;
+			students = new Student * [capacity];
+		}
+		if (studentsNum >= capacity) {
+			capacity += ARRAY_INCREASING;
+			Student** tmpStudents = new Student*[capacity];
+			if (tmpStudents == nullptr) {
+				throw std::bad_alloc();
+			}
+			std::copy(students, students + studentsNum, tmpStudents);
+			// clean old array
+			delete[] students;
+			students = tmpStudents;
+		}
 		students[studentsNum++] = &_student;
-		_student.setGroup(this);
+		_student.group = this;
+	}
+	// delete student from array
+	void expelStudent(int _id) {
+		int studentInd = findStudent(_id);
+		if (studentInd >= 0) {
+			for (int i = studentInd; i < studentsNum - 1; ++i) {
+				students[i] = students[i + 1];
+			}
+			--studentsNum;
+		}
+	}
+	// delete student from array
+	void expelStudent(std::string _fio) {
+		int studentInd = findStudent(_fio);
+		if (studentInd >= 0) {
+			for (int i = studentInd; i < studentsNum - 1; ++i) {
+				students[i] = students[i + 1];
+			}
+			--studentsNum;
+		}
+	}
+	// return index of student if found and -1 if not
+	int findStudent(std::string _fio) const {
+		for (int i = 0; i < studentsNum; ++i) {
+			if (students[i]->fio == _fio) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	// return index of student if found and -1 if not
+	int findStudent(int _id) const {
+		for (int i = 0; i < studentsNum; ++i) {
+			if (students[i]->id == _id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	bool electGroupHead(Student& _student) {
+		// FIX ME find this student in array and if contains add
+		if (findStudent(_student.id) >= 0) {
+			head = &_student;
+			return true;
+		}
+		return false;
+	}
+	// calculate average mark of all students in group
+	double averageMark() const {
+		double sum = 0.0;
+		int num = 0;
+		for (int i = 0; i < studentsNum; ++i) {
+			for (int j = 0; j < students[i]->marksNum; ++j) {
+				sum += students[i]->marks[j];
+				++num;
+			}
+		}
+		return (num > 0) ? (sum / num) : 0.0;
 	}
 
 	~Group() {
