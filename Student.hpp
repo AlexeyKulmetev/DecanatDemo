@@ -4,6 +4,9 @@
 #include <string>
 #include <stdexcept>
 
+// FIX ME perhaps make it static fild is the best way?
+const int ARRAY_INCREASING = 5;
+
 class Group;
 
 class Student {

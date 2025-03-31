@@ -1,8 +1,6 @@
 #include "Student.hpp"
 #include "Group.hpp"
 
-// FIX ME perhaps make it static fild is the best way?
-const int ARRAY_INCREASING = 5;
 
 Student::Student(const int _id, const char* _fio) {
 	if (_id < 0) throw std::invalid_argument("ID must be non-negative");

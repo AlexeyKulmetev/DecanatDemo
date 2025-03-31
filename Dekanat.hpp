@@ -1,15 +1,14 @@
 #ifndef DEKANAT
 #define DEKANAT
 
-#include<algorithm>
-#include<iostream>
-#include<string>
-
-const int ARRAY_INCREASING = 5;
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include "Group.hpp"
+#include "Student.hpp"
 
 class Student;
 class Group;
-class Dekanat;
 
 //class Student {
 //private:
@@ -119,112 +118,116 @@ class Dekanat;
 //};
 
 
-class Group {
-	std::string title;
-	Student** students = nullptr;
-	int studentsNum = 0;
-	int capacity = 0;
-	Student* head = nullptr;
+//class Group {
+//	std::string title;
+//	Student** students = nullptr;
+//	int studentsNum = 0;
+//	int capacity = 0;
+//	Student* head = nullptr;
 
-public:
-	Group(const char* _title) : title(_title) {}
+//public:
+	//Group(const char* _title) : title(_title) {}
 
-	Group(const Group&) = delete;
+	//Group(const Group&) = delete;
 
-	Group& operator = (const Group&) = delete;
-	// FIX ME create move constructor, assignment operator, copy constructor
+	//Group& operator = (const Group&) = delete;
 
-	void addStudent(Student& _student) {
-		if (findStudent(_student.id)) {
-			return; // already added
-		}
-		if (_student.group) {
-			_student.group->expelStudent(_student.id);
-		}
-		// resize students array logic
-		if (students == nullptr) {
-			capacity = ARRAY_INCREASING;
-			students = new Student * [capacity];
-		}
-		if (studentsNum >= capacity) {
-			capacity += ARRAY_INCREASING;
-			Student** tmpStudents = new Student*[capacity];
-			if (tmpStudents == nullptr) {
-				throw std::bad_alloc();
-			}
-			std::copy(students, students + studentsNum, tmpStudents);
-			// clean old array
-			delete[] students;
-			students = tmpStudents;
-		}
-		students[studentsNum++] = &_student;
-		_student.group = this;
-	}
+	//void addStudent(Student& _student) {
+	//	if (findStudent(_student.id)) {
+	//		return; // already added
+	//	}
+	//	if (_student.group) {
+	//		_student.group->expelStudent(_student.id);
+	//	}
+	//	// resize students array logic
+	//	if (students == nullptr) {
+	//		capacity = ARRAY_INCREASING;
+	//		students = new Student * [capacity];
+	//	}
+	//	if (studentsNum >= capacity) {
+	//		capacity += ARRAY_INCREASING;
+	//		Student** tmpStudents = new Student*[capacity];
+	//		if (tmpStudents == nullptr) {
+	//			throw std::bad_alloc();
+	//		}
+	//		std::copy(students, students + studentsNum, tmpStudents);
+	//		// clean old array
+	//		delete[] students;
+	//		students = tmpStudents;
+	//	}
+	//	students[studentsNum++] = &_student;
+	//	_student.group = this;
+	//}
+	
 	// delete student from array
-	void expelStudent(int _id) {
-		int studentInd = findStudent(_id);
-		if (studentInd >= 0) {
-			students[studentInd]->group = nullptr; 
-			for (int i = studentInd; i < studentsNum - 1; ++i) {
-				students[i] = students[i + 1];
-			}
-			--studentsNum;
-		}
-	}
+	//void expelStudent(int _id) {
+	//	int studentInd = findStudent(_id);
+	//	if (studentInd >= 0) {
+	//		students[studentInd]->group = nullptr; 
+	//		for (int i = studentInd; i < studentsNum - 1; ++i) {
+	//			students[i] = students[i + 1];
+	//		}
+	//		--studentsNum;
+	//	}
+	//}
+	
 	// delete student from array
-	void expelStudent(std::string _fio) {
-		int studentInd = findStudent(_fio);
-		if (studentInd >= 0) {
-			for (int i = studentInd; i < studentsNum - 1; ++i) {
-				students[i] = students[i + 1];
-			}
-			--studentsNum;
-		}
-	}
+	//void expelStudent(std::string _fio) {
+	//	int studentInd = findStudent(_fio);
+	//	if (studentInd >= 0) {
+	//		for (int i = studentInd; i < studentsNum - 1; ++i) {
+	//			students[i] = students[i + 1];
+	//		}
+	//		--studentsNum;
+	//	}
+	//}
+	
 	// return index of student if found and -1 if not
-	int findStudent(std::string _fio) const {
-		for (int i = 0; i < studentsNum; ++i) {
-			if (students[i]->fio == _fio) {
-				return i;
-			}
-		}
-		return -1;
-	}
-	// return index of student if found and -1 if not
-	int findStudent(int _id) const {
-		for (int i = 0; i < studentsNum; ++i) {
-			if (students[i]->id == _id) {
-				return i;
-			}
-		}
-		return -1;
-	}
+	//int findStudent(std::string _fio) const {
+	//	for (int i = 0; i < studentsNum; ++i) {
+	//		if (students[i]->fio == _fio) {
+	//			return i;
+	//		}
+	//	}
+	//	return -1;
+	//}
 
-	bool electGroupHead(Student& _student) {
-		// FIX ME find this student in array and if contains add
-		if (findStudent(_student.id) >= 0) {
-			head = &_student;
-			return true;
-		}
-		return false;
-	}
+	// return index of student if found and -1 if not
+	//int findStudent(int _id) const {
+	//	for (int i = 0; i < studentsNum; ++i) {
+	//		if (students[i]->id == _id) {
+	//			return i;
+	//		}
+	//	}
+	//	return -1;
+	//}
+
+	//bool electGroupHead(Student& _student) {
+	//	// FIX ME find this student in array and if contains add
+	//	if (findStudent(_student.id) >= 0) {
+	//		head = &_student;
+	//		return true;
+	//	}
+	//	return false;
+	//}
+	
 	// calculate average mark of all students in group
-	double averageMark() const {
-		double sum = 0.0;
-		int num = 0;
-		for (int i = 0; i < studentsNum; ++i) {
-			for (int j = 0; j < students[i]->marksNum; ++j) {
-				sum += students[i]->marks[j];
-				++num;
-			}
-		}
-		return (num > 0) ? (sum / num) : 0.0;
-	}
+	//double averageMark() const {
+	//	double sum = 0.0;
+	//	int num = 0;
+	//	for (int i = 0; i < studentsNum; ++i) {
+	//		for (int j = 0; j < students[i]->marksNum; ++j) {
+	//			sum += students[i]->marks[j];
+	//			++num;
+	//		}
+	//	}
+	//	return (num > 0) ? (sum / num) : 0.0;
+	//}
 
-	~Group() {
-		delete[] students;
-	}
-};
+	//~Group() {
+	//	delete[] students;
+	//}
+//};
 
 class Dekanat {
 	Student* students = nullptr;
