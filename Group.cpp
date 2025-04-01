@@ -3,6 +3,8 @@
 
 Group::Group(const char* _title) : title(_title) {}
 
+Group::Group(std::string& _title) : title(_title) {}
+
 void Group::addStudent(Student& _student) {
 	if (findStudent(_student.id)) {
 		return; // already added

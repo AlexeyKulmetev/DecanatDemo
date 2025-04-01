@@ -2,6 +2,7 @@
 #define DEKANAT
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include "Group.hpp"
@@ -230,13 +231,33 @@ class Group;
 //};
 
 class Dekanat {
-	Student* students = nullptr;
-	Group* groups = nullptr;
+	Student** students = nullptr;
+	Group** groups = nullptr;
+	// load groups from file method
+	bool loadGroupFromFile(std::string& filename) {
+		std::ifstream file(filename, std::ios::binary | std::ios::ate);
+		if (!file.is_open()) {
+			throw std::runtime_error("Failed to open file: " + filename);
+		}
+
+	}
+	// load students from file method
+
+public:
+	Dekanat() = default;
+
+
 
 	~Dekanat() {
 		delete[] students;
-		delete[] groups; // FIX ME why this field is unavailable
+		delete[] groups;
 	}
+
+	// method to load groups and students
+	// first load groups
+	// then load students and assign them to the groups
+
+
 };
 
 #endif // !DEKANAT

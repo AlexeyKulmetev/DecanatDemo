@@ -15,6 +15,8 @@ private:
 public:
 	Group(const char* _title);
 
+	Group(std::string& _title);
+
 	Group(const Group&) = delete;
 
 	Group& operator = (const Group&) = delete;
