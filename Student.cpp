@@ -9,6 +9,13 @@ Student::Student(const int _id, const char* _fio) {
 	fio = _fio;
 }
 
+Student::Student(const int _id, const std::string _fio) {
+	if (_id < 0) throw std::invalid_argument("ID must be non-negative");
+	if (_fio.empty()) throw std::invalid_argument("FIO cannot be empty");
+	id = _id;
+	fio = _fio;
+}
+
 Student::Student(const Student& other) : id(other.id), fio(other.fio), group(other.group),
 marksNum(other.marksNum), capacity(other.capacity) {
 	marks = new int[capacity];
@@ -37,7 +44,7 @@ Student::~Student() {
 	delete[] marks;
 }
 
-void Student::enroll_to_group(Group* _group) {
+void Student::enrollToGroup(Group* _group) {
 	if (group == _group) {
 		return; // is already enrolled
 	}

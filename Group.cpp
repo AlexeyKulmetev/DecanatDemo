@@ -5,6 +5,10 @@ Group::Group(const char* _title) : title(_title) {}
 
 Group::Group(std::string& _title) : title(_title) {}
 
+const std::string& Group::getTitle() const {
+	return title;
+}
+
 void Group::addStudent(Student& _student) {
 	if (findStudent(_student.id)) {
 		return; // already added

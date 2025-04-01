@@ -23,6 +23,8 @@ public:
 
 	// FIX ME create move constructor, assignment operator, copy constructor
 
+	const std::string& getTitle() const;
+
 	void addStudent(Student& _student);
 
 	void expelStudent(int _id);

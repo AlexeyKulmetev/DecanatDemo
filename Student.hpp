@@ -25,13 +25,15 @@ public:
 
 	Student(const int _id, const char* _fio);
 
+	Student(const int _id, const std::string _fio);
+
 	Student(const Student& other);
 
 	Student& operator = (const Student& other);
 
 	~Student();
 
-	void enroll_to_group(Group* _group);
+	void enrollToGroup(Group* _group);
 
 	Group* getGroup() const;
 
