@@ -21,6 +21,8 @@ public:
 
 	Group& operator = (const Group&) = delete;
 
+	void print() const;
+
 	// FIX ME create move constructor, assignment operator, copy constructor
 
 	const std::string& getTitle() const;

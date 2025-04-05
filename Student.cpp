@@ -1,5 +1,6 @@
-#include "Student.hpp"
 #include "Group.hpp"
+#include "Student.hpp"
+#include "shared_constants.hpp"
 
 
 Student::Student(const int _id, const char* _fio) {
@@ -44,7 +45,15 @@ Student::~Student() {
 	delete[] marks;
 }
 
+void Student::print() const {
+	std::cout << "id: " << id << ", fio: " << fio << ", ";
+	group->print();
+}
+
 void Student::enrollToGroup(Group* _group) {
+	if (!_group) {
+		return;
+	}
 	if (group == _group) {
 		return; // is already enrolled
 	}
@@ -57,12 +66,12 @@ Group* Student::getGroup() const {
 
 void Student::addMark(int _mark) {
 	if (marks == nullptr) {
-		capacity = ARRAY_INCREASING;
+		capacity = Constants::ARRAY_INCREASING;
 		marks = new int[capacity];
 	}
 
 	if (marksNum >= capacity) {
-		capacity += ARRAY_INCREASING;
+		capacity += Constants::ARRAY_INCREASING;
 		int* tmpMarks = new int[capacity];
 		if (tmpMarks == nullptr) {
 			throw::std::bad_alloc();

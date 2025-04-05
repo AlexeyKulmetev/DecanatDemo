@@ -1,16 +1,24 @@
 #include "Group.hpp"
+#include "shared_constants.hpp"
 #include "Student.hpp"
 
 Group::Group(const char* _title) : title(_title) {}
 
 Group::Group(std::string& _title) : title(_title) {}
 
+void Group::print() const {
+	std::cout << "group: " << title;
+}
+
 const std::string& Group::getTitle() const {
 	return title;
 }
 
 void Group::addStudent(Student& _student) {
-	if (findStudent(_student.id)) {
+	if (!this) {
+		return;
+	}
+	if (findStudent(_student.id) >= 0) {
 		return; // already added
 	}
 	if (_student.group) {
@@ -18,11 +26,11 @@ void Group::addStudent(Student& _student) {
 	}
 	// resize students array logic
 	if (students == nullptr) {
-		capacity = ARRAY_INCREASING;
+		capacity = Constants::ARRAY_INCREASING;
 		students = new Student * [capacity];
 	}
 	if (studentsNum >= capacity) {
-		capacity += ARRAY_INCREASING;
+		capacity += Constants::ARRAY_INCREASING;
 		Student** tmpStudents = new Student * [capacity];
 		if (tmpStudents == nullptr) {
 			throw std::bad_alloc();

@@ -16,7 +16,9 @@ int main() {
 	dek1.loadGroupsFromFile("groups.txt");
 	dek1.loadStudentsFromFiles("students.txt");
 
-
+	dek1.printGroups();
+	std::cout << std::endl;
+	dek1.printStudents();
 
 	return 0;
 }

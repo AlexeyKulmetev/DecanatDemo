@@ -1,4 +1,4 @@
-1 AndreevArturPetovich
-2 AntonovDmitriyIvanovich
-3 VinogradovaJuliaPavlovna
-4 GorelovaAlinaLeonidovna
+1 AndreevArturPetovich IRIT
+2 AntonovDmitriyIvanovich NRTK
+3 VinogradovaJuliaPavlovna IRIT
+4 GorelovaAlinaLeonidovna SPF

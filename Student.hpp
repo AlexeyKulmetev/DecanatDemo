@@ -1,11 +1,9 @@
 #ifndef STUDENT
 #define STUDENT
+
 #include <iostream>
 #include <string>
 #include <stdexcept>
-
-// FIX ME perhaps make it static fild is the best way?
-const int ARRAY_INCREASING = 5;
 
 class Group;
 
@@ -32,6 +30,8 @@ public:
 	Student& operator = (const Student& other);
 
 	~Student();
+
+	void print() const;
 
 	void enrollToGroup(Group* _group);
 
